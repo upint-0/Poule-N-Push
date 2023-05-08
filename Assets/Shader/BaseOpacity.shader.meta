@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: ace7232a796bec945835bde127a7c35a
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Poulet1_bc: {fileID: 2800000, guid: 62873bc0216b3f14d8c559a9f803b4f7, type: 3}
+  - _Poulet1_AoCurvatureMask: {fileID: 2800000, guid: 29e6e1c7c262c8f489a239e8b20b01d8,
+      type: 3}
+  - _Poulet1_Normal: {fileID: 2800000, guid: 0652ad1d3c2deca4aa3f7822d3abea53, type: 3}
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

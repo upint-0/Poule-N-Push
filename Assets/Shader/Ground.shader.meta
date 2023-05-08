@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 2ed3529df95fa3a4ba5ea99fe8714f9f
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Ground_bc: {fileID: 2800000, guid: 3d7a6e7ea1037584298d5f980f401791, type: 3}
+  - _Mud_bc: {fileID: 2800000, guid: e3f6745026946074fa3cdea104fae51f, type: 3}
+  - _Mud_bc1: {fileID: 2800000, guid: a4d9d3c734d902c44ad61f1a0043d4c6, type: 3}
+  - _Ground_Normal: {fileID: 2800000, guid: a45769fbe0290cd4398cf944dc06d0f1, type: 3}
+  - _Mud_Normal: {fileID: 2800000, guid: a45769fbe0290cd4398cf944dc06d0f1, type: 3}
+  - _Ground_AoCurvatureMask: {fileID: 2800000, guid: 5b8775ef67b79b44497f77c3e3298d54,
+      type: 3}
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

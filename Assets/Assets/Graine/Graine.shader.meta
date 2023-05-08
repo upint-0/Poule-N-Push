@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: dd771950f0d40ba46aecc46f14e89992
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Graine_bc: {fileID: 2800000, guid: e2a372c58f34e3d4482326a265f9e079, type: 3}
+  - _Graine_AoCurvatureMask: {fileID: 2800000, guid: 9b7917da50e093846844845738df2119,
+      type: 3}
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
