@@ -47,3 +47,4 @@ MonoBehaviour:
   _chickenCount: 20
   _chickenPrefab: {fileID: 1756790602660750128, guid: 2a6feee15456bec4f9e86786e3508b50,
     type: 3}
+  Radius: 3
