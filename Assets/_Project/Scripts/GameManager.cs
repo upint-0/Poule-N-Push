@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace AgriLife
 {
@@ -10,19 +11,16 @@ namespace AgriLife
 
         private SceneLoader _sceneLoader;
 
-        public void LoadMainMenu()
-        {
-            _sceneLoader.LoadLevel(0);
-        }
+        public UnityEvent OnNewGameStarted { get; } = new UnityEvent();
 
         public void StartNewGame()
         {
-            _sceneLoader.LoadLevel(1);
+            OnNewGameStarted.Invoke();
         }
 
-        public void LoadQuitMenu()
+        public void ReloadGame()
         {
-            _sceneLoader.LoadLevel(2);
+            _sceneLoader.LoadScene(0);
         }
 
         public void Quit()

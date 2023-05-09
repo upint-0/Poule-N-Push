@@ -24,6 +24,7 @@ public class HUD_MainMenu : MonoBehaviour
 
     public void LaunchTheGame()
     {
+        GameManager.Instance.StartNewGame();
         Time.timeScale = 1;
         HUDINGAME.gameObject.SetActive(true);
         audiso.GetComponent<AudioLowPassFilter>().enabled = false;

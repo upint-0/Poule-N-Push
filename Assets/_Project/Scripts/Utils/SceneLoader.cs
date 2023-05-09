@@ -11,7 +11,7 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private float fakeWaitingDuration;
     [SerializeField] private float transitionDuration;
 
-    public void LoadLevel(int sceneToLoadIndex)
+    public void LoadScene(int sceneToLoadIndex)
     {
         StartCoroutine(LoadSceneAsync(sceneToLoadIndex));
     }

@@ -37,7 +37,14 @@ public class RoundManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine( StartRound() );
+        GameManager.Instance.OnNewGameStarted.AddListener(InitializeGame);
+    }
+
+    private void InitializeGame()
+    {
+        Player1Score = 0;
+        Player2Score = 0;
+        StartCoroutine(StartRound());
     }
 
     public IEnumerator StartRound()
@@ -111,9 +118,7 @@ public class RoundManager : MonoBehaviour
                 FinalWin?.Invoke( false );
             }
 
-            yield return new WaitForSeconds( 2.0f );
-
-            FindObjectOfType<HUD_SceneLoader>().LoadLevel( 0 );
+            yield break;
         }
 
         yield return new WaitForSeconds( 5.0f );
