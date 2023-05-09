@@ -18,10 +18,10 @@ public class CaptureZone : MonoBehaviour
 
     private void Start()
     {
-        RoundManager.Instance.VictoryEvent.AddListener( CleanList );
+        RoundManager.Instance.RestartRound.AddListener( CleanList );
     }
 
-    private void CleanList(EVictoryStates nthg)
+    private void CleanList()
     {
         Chickens.Clear();
     }
