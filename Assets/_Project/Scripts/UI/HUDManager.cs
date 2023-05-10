@@ -86,6 +86,10 @@ public class HUDManager : MonoBehaviour
 
     private void EndGame( bool p1 )
     {
+        P1Victory.gameObject.SetActive(false);
+        P2Victory.gameObject.SetActive(false);
+        Tie.gameObject.SetActive(false);
+
         VictoryScreen.SetActive( true );
 
         if ( p1 )

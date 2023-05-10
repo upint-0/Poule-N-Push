@@ -107,6 +107,8 @@ public class RoundManager : MonoBehaviour
             VictoryEvent?.Invoke( victoryState );
         }
 
+        yield return new WaitForSeconds( 5.0f );
+
         if ( Player1Score == 3 || Player2Score == 3 )
         {
             if ( Player1Score == 3 )
@@ -121,7 +123,6 @@ public class RoundManager : MonoBehaviour
             yield break;
         }
 
-        yield return new WaitForSeconds( 5.0f );
 
 
         RestartRound?.Invoke();
