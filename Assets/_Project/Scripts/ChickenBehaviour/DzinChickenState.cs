@@ -15,7 +15,7 @@ public class DzinChickenState : AChickenState
 
 
 
-        if(_chickenCore.MustComputeVisibleCohesion)
+        if(_chickenCore.Data.MustComputeVisibleCohesion)
         {
             direction += _chickenCore.VisibleCohesion.ComputeDirection(_multipliers);
         }

@@ -17,20 +17,20 @@ public abstract class AChickenState
     {
         _chickenCore = chickenCore;
         SetState();
-        _multipliers = _chickenCore.StateMultipliers[State];
+        _multipliers = _chickenCore.Data.StateMultipliers[State];
     }
 
     public void ApplyBehaviour()
     {
         // probabilité de dzin en fonction de la distance du joueur et de la distance des poulets dzinés
 
-        if (_chickenCore.MustComputeWallAvoidance)
+        if(_chickenCore.Data.MustComputeWallAvoidance)
         {
             Vector3 wallAvoidanceDirection = _chickenCore.WallAvoidance.ComputeDirection(_multipliers);
 
-            if (wallAvoidanceDirection != Vector3.zero)
+            if(wallAvoidanceDirection != Vector3.zero)
             {
-                _chickenCore.Movement.SetCurrentDirection( wallAvoidanceDirection);
+                _chickenCore.Movement.SetCurrentDirection(wallAvoidanceDirection);
                 _chickenCore.transform.forward = wallAvoidanceDirection;
                 _chickenCore.IdleBehaviour.ForceNextChangeTime(1.0f);
 
@@ -38,20 +38,20 @@ public abstract class AChickenState
             }
         }
 
-        if (_chickenCore.MustComputePlayerAvoidance)
+        if(_chickenCore.Data.MustComputePlayerAvoidance)
         {
             Vector3 playerAvoidanceDirection = _chickenCore.PlayerAvoidance.ComputeDirection(_multipliers);
-            _chickenCore.Movement.SetCurrentDirection( playerAvoidanceDirection);
+            _chickenCore.Movement.SetCurrentDirection(playerAvoidanceDirection);
             float playerAvoidanceSpeed = _chickenCore.PlayerAvoidance.ComputeSpeed();
 
-            if (_chickenCore.Movement.CurrentSpeed < playerAvoidanceSpeed)
+            if(_chickenCore.Movement.CurrentSpeed < playerAvoidanceSpeed)
             {
                 _chickenCore.Movement.CurrentSpeed = playerAvoidanceSpeed;
             }
 
-            if (playerAvoidanceDirection != Vector3.zero)
+            if(playerAvoidanceDirection != Vector3.zero)
             {
-                if (_chickenCore.CurrentState.State == ChickenState.Eating)
+                if(_chickenCore.CurrentState.State == ChickenState.Eating)
                 {
                     _chickenCore.CurrentState = new IdleChickenState(_chickenCore);
                 }
@@ -60,7 +60,7 @@ public abstract class AChickenState
             }
         }
 
-        _chickenCore.Movement.SetCurrentDirection( ComputeDirection());
+        _chickenCore.Movement.SetCurrentDirection(ComputeDirection());
         _chickenCore.Movement.CurrentSpeed = ComputeSpeed();
     }
 

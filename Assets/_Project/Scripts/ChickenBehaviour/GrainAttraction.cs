@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class GrainAttraction : MonoBehaviour
 {
-    [SerializeField] private float _attractionRadius;
-    [SerializeField] private float _attractionSpeed;
-
     bool _grainIsInAttractionRadius;
+
+    private ChickenData _chickenData;
+
+    public void Initialize(ChickenData data)
+    {
+        _chickenData = data;
+    }
 
     public Vector3 ComputeDirection(ChickenMultipliers multipliers)
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, _attractionRadius * multipliers.FoodAttraction, LayerMask.NameToLayer("Grain"));
+        Collider[] colliders = Physics.OverlapSphere(transform.position, _chickenData.AttractionRadius * multipliers.FoodAttraction, LayerMask.NameToLayer("Grain"));
 
         if(colliders.Length > 0)
         {
@@ -25,7 +29,7 @@ public class GrainAttraction : MonoBehaviour
     {
         if(_grainIsInAttractionRadius)
         {
-            return _attractionSpeed;
+            return _chickenData.AttractionSpeed;
         }
 
         return 0f;

@@ -400,36 +400,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6c3b2b3418ef264d99fd910959faf7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <StateMultipliers>k__BackingField:
-    KeyValueList:
-    - Key: 0
-      Value:
-        Dzin: 1
-        PlayerAvoidance: 1
-        FoodAttraction: 1
-        OtherDzins: 1
-        OtherChickens: 1
-    - Key: 1
-      Value:
-        Dzin: 3
-        PlayerAvoidance: 3
-        FoodAttraction: 0
-        OtherDzins: 2
-        OtherChickens: 3
-    - Key: 2
-      Value:
-        Dzin: 1
-        PlayerAvoidance: 0.5
-        FoodAttraction: 0
-        OtherDzins: 0.5
-        OtherChickens: 0
-  <MinMetersPerSecond>k__BackingField: 1
-  <MaxMetersPerSecond>k__BackingField: 4
-  <MustComputePlayerAvoidance>k__BackingField: 1
-  <MustComputeWallAvoidance>k__BackingField: 1
-  <MustComputeVisibleCohesion>k__BackingField: 1
-  <MustComputeIdleBehaviour>k__BackingField: 1
-  <MustComputeGrainAttraction>k__BackingField: 1
+  <Data>k__BackingField: {fileID: 11400000, guid: 9e4c71695c902d145b59700f956ad56f,
+    type: 2}
 --- !u!114 &1127311422819104995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,7 +414,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88143bcc97e653e46b82bdaf291dfc7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotSpeed: 200
 --- !u!195 &5671711802868301754
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -477,8 +448,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68ed023aae35db142a769213dd6be5e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConeAngle: 30
-  Length: 2
   m_allowCollision:
     serializedVersion: 2
     m_Bits: 0
@@ -494,7 +463,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9ce9584b53434d42b2b9eb1a676e356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _avoidanceRadius: 5
 --- !u!114 &-8299879979989904019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -507,9 +475,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84f8762c1b481ae46a7f001db0b549ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minChangePeriod: 2
-  _maxChangePeriod: 10
-  _immobilityProbability: 0.6
 --- !u!114 &-309037794359017940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,8 +487,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a20a27dc04bb06b4a8afff998cc65787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _attractionRadius: 5
-  _attractionSpeed: 10
 --- !u!1 &589834776756807373
 GameObject:
   m_ObjectHideFlags: 0

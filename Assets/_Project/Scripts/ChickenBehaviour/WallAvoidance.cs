@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class WallAvoidance : MonoBehaviour
 {
-    [SerializeField] private float ConeAngle = 30.0f;
-    [SerializeField] private float Length = 5.0f;
+    private ChickenData _chickenData;
 
-    public Vector3 ComputeDirection( ChickenMultipliers multipliers )
+    public void Initialize(ChickenData data)
     {
-        Vector3 directionRight = Quaternion.Euler( 0, ConeAngle, 0 ) * transform.forward * Length;
-        Vector3 directionForward = transform.forward * Length;
-        Vector3 directionLeft = Quaternion.Euler( 0, -ConeAngle, 0 ) * transform.forward * Length;
+        _chickenData = data;
+    }
+
+    public Vector3 ComputeDirection(ChickenMultipliers multipliers)
+    {
+        Vector3 directionRight = Quaternion.Euler(0, _chickenData.WallAvoidanceConeAngle, 0) * transform.forward * _chickenData.WallAvoidanceLength;
+        Vector3 directionForward = transform.forward * _chickenData.WallAvoidanceLength;
+        Vector3 directionLeft = Quaternion.Euler(0, -_chickenData.WallAvoidanceConeAngle, 0) * transform.forward * _chickenData.WallAvoidanceLength;
 
         Vector3 normalAverage = Vector3.zero;
 
@@ -20,9 +24,9 @@ public class WallAvoidance : MonoBehaviour
         //    normalAverage += hitInfo.normal;
         //}
 
-        bool forward = Physics.Raycast( transform.position, directionForward, out RaycastHit hitInfo, Length, LayerMask.GetMask( "Wall" ) );
+        bool forward = Physics.Raycast(transform.position, directionForward, out RaycastHit hitInfo, _chickenData.WallAvoidanceLength, LayerMask.GetMask("Wall"));
 
-        if ( forward )
+        if(forward)
         {
             normalAverage += hitInfo.normal;
         }
@@ -35,7 +39,7 @@ public class WallAvoidance : MonoBehaviour
         //}
 
         // Debug.DrawRay(transform.position, directionRight, right ? Color.black : Color.white);
-        Debug.DrawRay( transform.position, directionForward, forward ? Color.black : Color.white );
+        Debug.DrawRay(transform.position, directionForward, forward ? Color.black : Color.white);
         //Debug.DrawRay(transform.position, directionLeft, left ? Color.black : Color.white);
 
         Vector3 finalDir = Vector3.zero;
@@ -45,10 +49,10 @@ public class WallAvoidance : MonoBehaviour
         //    finalDir = normalAverage;
         //    Debug.DrawRay( transform.position, finalDir, Color.red );
         //}
-        if ( forward )
+        if(forward)
         {
             finalDir = normalAverage;
-            Debug.DrawRay( transform.position, finalDir, Color.red );
+            Debug.DrawRay(transform.position, finalDir, Color.red);
         }
 
         return finalDir;
@@ -56,12 +60,12 @@ public class WallAvoidance : MonoBehaviour
 
 
     public LayerMask m_allowCollision;
-    public bool IsHittingWall( ChickenMultipliers multipliers )
+    public bool IsHittingWall(ChickenMultipliers multipliers)
     {
-        Vector3 directionForward = transform.forward * Length;
-        Debug.DrawLine( transform.position, transform.position + directionForward  *2f , Color.red  );
+        Vector3 directionForward = transform.forward * _chickenData.WallAvoidanceLength;
+        Debug.DrawLine(transform.position, transform.position + directionForward * 2f, Color.red);
 
-        bool forward = Physics.Raycast( transform.position, directionForward, out RaycastHit hitInfo, Length, m_allowCollision );
+        bool forward = Physics.Raycast(transform.position, directionForward, out RaycastHit hitInfo, _chickenData.WallAvoidanceLength, m_allowCollision);
         //Debug.Log( "What ? "+forward );
         return forward;
     }

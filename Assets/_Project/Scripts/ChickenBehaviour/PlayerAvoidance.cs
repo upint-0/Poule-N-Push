@@ -2,17 +2,22 @@ using UnityEngine;
 
 public class PlayerAvoidance : MonoBehaviour
 {
-    [SerializeField] private float _avoidanceRadius;
-
     private PlayerController _player1;
     private PlayerController _player2;
     private PlayerController _closestPlayer;
-    bool _playerIsInAvoidanceRadius;
+    private bool _playerIsInAvoidanceRadius;
+
+    private ChickenData _chickenData;
 
     private void Awake()
     {
         _player1 = GameObject.FindWithTag("Player1").GetComponent<PlayerController>();
         _player2 = GameObject.FindWithTag("Player2").GetComponent<PlayerController>();
+    }
+
+    public void Initialize(ChickenData data)
+    {
+        _chickenData = data;
     }
 
     public Vector3 ComputeDirection(ChickenMultipliers multipliers)
@@ -33,8 +38,8 @@ public class PlayerAvoidance : MonoBehaviour
             _closestPlayer = _player2;
         }
 
-        float playerSpeedFactor = Remap(_closestPlayer.Input.magnitude, 0f, 1f, 1f, 2f);
-        _playerIsInAvoidanceRadius = minDist < _avoidanceRadius * multipliers.PlayerAvoidance * playerSpeedFactor;
+        float playerSpeedFactor = Math.Remap(_closestPlayer.Input.magnitude, 0f, 1f, 1f, 2f);
+        _playerIsInAvoidanceRadius = minDist < _chickenData.PlayerAvoidanceRadius * multipliers.PlayerAvoidance * playerSpeedFactor;
 
         if(_playerIsInAvoidanceRadius)
         {
@@ -58,10 +63,5 @@ public class PlayerAvoidance : MonoBehaviour
         }
 
         return 0f;
-    }
-
-    public static float Remap(float value, float min1, float max1, float min2, float max2)
-    {
-        return min2 + (value - min1) * ((max2 - min2) / (max1 - min1));
     }
 }

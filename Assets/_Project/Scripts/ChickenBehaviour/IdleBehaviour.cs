@@ -2,20 +2,14 @@ using UnityEngine;
 
 public class IdleBehaviour : MonoBehaviour
 {
-    [SerializeField] private float _minChangePeriod;
-    [SerializeField] private float _maxChangePeriod;
-    [SerializeField][Range(0f, 1f)] private float _immobilityProbability;
-
     private float _nextChangeTime;
     private Vector3 _currentDirection;
     private float _currentSpeed;
-    private float _minMetersPerSecond;
-    private float _maxMetersPerSecond;
+    private ChickenData _chickenData;
 
-    public void Initialize(float minMetersPerSecond, float maxMetersPerSecond)
+    public void Initialize(ChickenData data)
     {
-        _minMetersPerSecond = minMetersPerSecond;
-        _maxMetersPerSecond = maxMetersPerSecond;
+        _chickenData = data;
     }
 
     public Vector3 ComputeDirection()
@@ -30,9 +24,9 @@ public class IdleBehaviour : MonoBehaviour
 
     private void SelectNewBehaviour()
     {
-        bool must_be_immobile = Random.value < _immobilityProbability;
+        bool must_be_immobile = Random.value < _chickenData.ImmobilityProbability;
 
-        if (must_be_immobile)
+        if(must_be_immobile)
         {
             _currentSpeed = 0f;
         }
@@ -45,9 +39,8 @@ public class IdleBehaviour : MonoBehaviour
 
             _currentDirection = Random.insideUnitSphere;
             _currentDirection.y = 0;
-            _currentSpeed = Random.Range(_minMetersPerSecond, _maxMetersPerSecond);
-            Debug.DrawLine( transform.position, transform.position + _currentDirection, Color.green ,10);
-            ;
+            _currentSpeed = Random.Range(_chickenData.MinMetersPerSecond, _chickenData.MaxMetersPerSecond);
+            Debug.DrawLine(transform.position, transform.position + _currentDirection, Color.green, 10);
         }
     }
 
@@ -61,7 +54,7 @@ public class IdleBehaviour : MonoBehaviour
         if(Time.time >= _nextChangeTime)
         {
             SelectNewBehaviour();
-            _nextChangeTime += Random.Range(_minChangePeriod, _maxChangePeriod);
+            _nextChangeTime += Random.Range(_chickenData.MinIdleChangePeriod, _chickenData.MaxIdleChangePeriod);
         }
     }
 

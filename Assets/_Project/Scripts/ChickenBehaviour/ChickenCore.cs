@@ -1,26 +1,8 @@
-using System;
 using UnityEngine;
-
-[Serializable]
-public struct ChickenMultipliers
-{
-    [Range(0f, 10f)] public float Dzin; // probability
-    [Range(0f, 10f)] public float PlayerAvoidance; // detection distance
-    [Range(0f, 10f)] public float FoodAttraction; // detection distance
-    [Range(0f, 10f)] public float OtherDzins; // detection distance
-    [Range(0f, 10f)] public float OtherChickens; // detection distance
-}
 
 public class ChickenCore : MonoBehaviour
 {
-    [field: SerializeField] public SerializableDictionary<ChickenState, ChickenMultipliers> StateMultipliers { get; private set; }
-    [field: SerializeField] public float MinMetersPerSecond { get; private set; }
-    [field: SerializeField] public float MaxMetersPerSecond { get; private set; }
-    [field: SerializeField] public bool MustComputePlayerAvoidance { get; private set; }
-    [field: SerializeField] public bool MustComputeWallAvoidance { get; private set; }
-    [field: SerializeField] public bool MustComputeVisibleCohesion { get; private set; }
-    [field: SerializeField] public bool MustComputeIdleBehaviour { get; private set; }
-    [field: SerializeField] public bool MustComputeGrainAttraction { get; private set; }
+    [field: SerializeField] public ChickenData Data { get; private set; }
 
     public AChickenState CurrentState { get; set; }
     public ChickenMovement Movement { get; private set; }
@@ -34,12 +16,16 @@ public class ChickenCore : MonoBehaviour
     {
         CurrentState = new IdleChickenState(this);
         Movement = GetComponent<ChickenMovement>();
+        Movement.Initialize(Data);
         PlayerAvoidance = GetComponent<PlayerAvoidance>();
+        PlayerAvoidance.Initialize(Data);
         WallAvoidance = GetComponent<WallAvoidance>();
+        WallAvoidance.Initialize(Data);
         IdleBehaviour = GetComponent<IdleBehaviour>();
-        IdleBehaviour.Initialize(MinMetersPerSecond, MaxMetersPerSecond);
+        IdleBehaviour.Initialize(Data);
         VisibleCohesion = GetComponentInChildren<VisibleCohesion>();
         GrainAttraction = GetComponent<GrainAttraction>();
+        GrainAttraction.Initialize(Data);
     }
 
     private void Update()

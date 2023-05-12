@@ -13,17 +13,17 @@ public class IdleChickenState : AChickenState
     {
         Vector3 direction = Vector3.zero;
 
-        if(_chickenCore.MustComputeIdleBehaviour)
+        if(_chickenCore.Data.MustComputeIdleBehaviour)
         {
             direction += _chickenCore.IdleBehaviour.ComputeDirection();
         }
 
-        if(_chickenCore.MustComputeVisibleCohesion)
+        if(_chickenCore.Data.MustComputeVisibleCohesion)
         {
             direction += _chickenCore.VisibleCohesion.ComputeDirection(_multipliers);
         }
 
-        if(_chickenCore.MustComputeGrainAttraction)
+        if(_chickenCore.Data.MustComputeGrainAttraction)
         {
             direction += _chickenCore.GrainAttraction.ComputeDirection(_multipliers);
         }
@@ -36,12 +36,12 @@ public class IdleChickenState : AChickenState
     {
         float speed = 0f;
 
-        if(_chickenCore.MustComputeIdleBehaviour)
+        if(_chickenCore.Data.MustComputeIdleBehaviour)
         {
             speed += _chickenCore.IdleBehaviour.ComputeSpeed();
         }
 
-        if(_chickenCore.MustComputeGrainAttraction)
+        if(_chickenCore.Data.MustComputeGrainAttraction)
         {
             speed += _chickenCore.GrainAttraction.ComputeSpeed();
         }
