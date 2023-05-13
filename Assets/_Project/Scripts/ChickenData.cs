@@ -15,7 +15,9 @@ public class ChickenData : ScriptableObject
     [SerializeField] private float _maxMetersPerSecond = 4f;
     [SerializeField] private float _rotationSpeed = 60f;
     [Header("Player avoidance")]
-    [SerializeField] private float _playerAvoidanceRadius = 5f;
+    [SerializeField] private float _farthestPlayerDetection = 5f;
+    [SerializeField] private float _distanceForMatchingSpeed = 2f;
+    [SerializeField] private float _avoidanceFactorOnMaxPlayerSpeed = 2f;
     [Header("Wall avoidance")]
     [SerializeField] private float _wallAvoidanceConeAngle = 30f;
     [SerializeField] private float _wallAvoidanceLength = 2f;
@@ -36,7 +38,9 @@ public class ChickenData : ScriptableObject
     public bool MustComputeIdleBehaviour => _mustComputeIdleBehaviour;
     public bool MustComputeGrainAttraction => _mustComputeGrainAttraction;
     public float RotationSpeed => _rotationSpeed;
-    public float PlayerAvoidanceRadius => _playerAvoidanceRadius;
+    public float FarthestPlayerDetection => _farthestPlayerDetection;
+    public float DistanceForMatchingSpeed => _distanceForMatchingSpeed;
+    public float AvoidanceFactorOnMaxPlayerSpeed => _avoidanceFactorOnMaxPlayerSpeed;
     public float WallAvoidanceConeAngle => _wallAvoidanceConeAngle;
     public float WallAvoidanceLength => _wallAvoidanceLength;
     public float MinIdleChangePeriod => _minIdleChangePeriod;

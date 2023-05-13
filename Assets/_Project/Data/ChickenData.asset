@@ -13,7 +13,28 @@ MonoBehaviour:
   m_Name: ChickenData
   m_EditorClassIdentifier: 
   _stateMultipliers:
-    KeyValueList: []
+    KeyValueList:
+    - Key: 0
+      Value:
+        Dzin: 1
+        PlayerAvoidance: 1
+        FoodAttraction: 1
+        OtherDzins: 1
+        OtherChickens: 1
+    - Key: 1
+      Value:
+        Dzin: 3
+        PlayerAvoidance: 3
+        FoodAttraction: 0
+        OtherDzins: 2
+        OtherChickens: 3
+    - Key: 2
+      Value:
+        Dzin: 1
+        PlayerAvoidance: 0.5
+        FoodAttraction: 0
+        OtherDzins: 0.5
+        OtherChickens: 0
   _mustComputePlayerAvoidance: 1
   _mustComputeWallAvoidance: 1
   _mustComputeVisibleCohesion: 1
@@ -22,7 +43,7 @@ MonoBehaviour:
   _minMetersPerSecond: 1
   _maxMetersPerSecond: 4
   _rotationSpeed: 60
-  _playerAvoidanceRadius: 5
+  _playerAvoidanceRadius: 3
   _wallAvoidanceConeAngle: 30
   _wallAvoidanceLength: 2
   _minIdleChangePeriod: 2
