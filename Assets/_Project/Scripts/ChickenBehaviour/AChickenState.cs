@@ -3,6 +3,7 @@ using UnityEngine;
 public enum ChickenState
 {
     Idle,
+    Wandering,
     Dzin,
     Eating,
 }
@@ -53,7 +54,7 @@ public abstract class AChickenState
             {
                 if(_chickenCore.CurrentState.Type == ChickenState.Eating)
                 {
-                    _chickenCore.ChangeState(ChickenState.Idle);
+                    _chickenCore.ChangeState(ChickenState.Wandering);
                 }
 
                 return;

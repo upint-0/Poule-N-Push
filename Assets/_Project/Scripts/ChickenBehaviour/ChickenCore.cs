@@ -10,6 +10,7 @@ public class ChickenCore : MonoBehaviour
     public PlayerAvoidance PlayerAvoidance { get; private set; }
     public WallAvoidance WallAvoidance { get; private set; }
     public IdleBehaviour IdleBehaviour { get; private set; }
+    public WanderingBehaviour WanderingBehaviour { get; private set; }
     public VisibleCohesion VisibleCohesion { get; private set; }
     public GrainAttraction GrainAttraction { get; private set; }
 
@@ -19,6 +20,12 @@ public class ChickenCore : MonoBehaviour
         {
             case ChickenState.Idle:
                 CurrentState = new IdleChickenState(this);
+                break;
+            case ChickenState.Wandering:
+                if(Data.CanBeInWanderingState)
+                {
+                    CurrentState = new WanderingChickenState(this);
+                }
                 break;
             case ChickenState.Dzin:
                 if(Data.CanBeInDzinState)
@@ -37,7 +44,15 @@ public class ChickenCore : MonoBehaviour
 
     private void Awake()
     {
-        CurrentState = new IdleChickenState(this);
+        if(Data.CanBeInWanderingState)
+        {
+            CurrentState = Random.value > 0.5f ? new IdleChickenState(this) : new WanderingChickenState(this);
+        }
+        else
+        {
+            CurrentState = new IdleChickenState(this);
+        }
+
         Movement = GetComponent<ChickenMovement>();
         Movement.Initialize(Data);
         PlayerAvoidance = GetComponent<PlayerAvoidance>();
@@ -45,7 +60,9 @@ public class ChickenCore : MonoBehaviour
         WallAvoidance = GetComponent<WallAvoidance>();
         WallAvoidance.Initialize(Data);
         IdleBehaviour = GetComponent<IdleBehaviour>();
-        IdleBehaviour.Initialize(Data);
+        IdleBehaviour.Initialize(this);
+        WanderingBehaviour = GetComponent<WanderingBehaviour>();
+        WanderingBehaviour.Initialize(this);
         VisibleCohesion = GetComponentInChildren<VisibleCohesion>();
         GrainAttraction = GetComponent<GrainAttraction>();
         GrainAttraction.Initialize(Data);
@@ -58,21 +75,16 @@ public class ChickenCore : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        switch(CurrentState.Type)
+        Gizmos.color = CurrentState.Type switch
         {
-            case ChickenState.Idle:
-                //gizmo set in IdleBehaviour only when not moving
-                //immobility could be a state on itself
-                break;
-            case ChickenState.Dzin:
-                Gizmos.color = Color.red;
-                Gizmos.DrawSphere(transform.position + Vector3.up * 1.5f, 0.1f);
-                break;
-            case ChickenState.Eating:
-                Gizmos.color = Color.yellow;
-                Gizmos.DrawSphere(transform.position + Vector3.up * 1.5f, 0.1f);
-                break;
-        }
+            ChickenState.Idle => Color.blue,
+            ChickenState.Wandering => Color.green,
+            ChickenState.Dzin => Color.red,
+            ChickenState.Eating => Color.yellow,
+            _ => Color.black
+        };
+
+        Gizmos.DrawSphere(transform.position + Vector3.up * 1.5f, 0.1f);
     }
 
     public static Vector2 GetFlattenedVector(Vector3 vector)

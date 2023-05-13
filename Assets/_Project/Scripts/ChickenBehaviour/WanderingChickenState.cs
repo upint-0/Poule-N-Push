@@ -1,17 +1,24 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleChickenState : AChickenState
+public class WanderingChickenState : AChickenState
 {
-    public IdleChickenState(ChickenCore chickenCore) : base(chickenCore) { }
+    public WanderingChickenState(ChickenCore chickenCore) : base(chickenCore) { }
 
     protected override void SetState()
     {
-        Type = ChickenState.Idle;
+        Type = ChickenState.Wandering;
     }
 
     protected override Vector3 ComputeDirection()
     {
         Vector3 direction = Vector3.zero;
+
+        if(_chickenCore.Data.MustComputeWanderingBehaviour)
+        {
+            direction += _chickenCore.WanderingBehaviour.ComputeDirection();
+        }
 
         if(_chickenCore.Data.MustComputeVisibleCohesion)
         {
@@ -29,6 +36,11 @@ public class IdleChickenState : AChickenState
     protected override float ComputeSpeed()
     {
         float speed = 0f;
+
+        if(_chickenCore.Data.MustComputeWanderingBehaviour)
+        {
+            speed += _chickenCore.WanderingBehaviour.ComputeSpeed();
+        }
 
         if(_chickenCore.Data.MustComputeGrainAttraction)
         {
