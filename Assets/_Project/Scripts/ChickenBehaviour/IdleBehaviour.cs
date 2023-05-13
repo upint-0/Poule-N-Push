@@ -40,7 +40,6 @@ public class IdleBehaviour : MonoBehaviour
             _currentDirection = Random.insideUnitSphere;
             _currentDirection.y = 0;
             _currentSpeed = Random.Range(_chickenData.MinMetersPerSecond, _chickenData.MaxMetersPerSecond);
-            Debug.DrawLine(transform.position, transform.position + _currentDirection, Color.green, 10);
         }
     }
 
@@ -61,5 +60,19 @@ public class IdleBehaviour : MonoBehaviour
     public void ForceNextChangeTime(float period)
     {
         _nextChangeTime += period;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+
+        if(_currentSpeed == 0f)
+        {
+            Gizmos.DrawSphere(transform.position + Vector3.up * 1.5f, 0.1f);
+        }
+        else
+        {
+            Gizmos.DrawLine(transform.position, transform.position + _currentDirection);
+        }
     }
 }

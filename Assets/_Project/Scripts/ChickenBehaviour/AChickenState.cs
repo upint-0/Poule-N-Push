@@ -9,7 +9,7 @@ public enum ChickenState
 
 public abstract class AChickenState
 {
-    public ChickenState State { get; set; }
+    public ChickenState Type { get; set; }
     protected ChickenCore _chickenCore;
     protected ChickenMultipliers _multipliers;
 
@@ -17,7 +17,7 @@ public abstract class AChickenState
     {
         _chickenCore = chickenCore;
         SetState();
-        _multipliers = _chickenCore.Data.StateMultipliers[State];
+        _multipliers = _chickenCore.Data.StateMultipliers[Type];
     }
 
     public void ApplyBehaviour()
@@ -51,9 +51,9 @@ public abstract class AChickenState
 
             if(playerAvoidanceDirection != Vector3.zero)
             {
-                if(_chickenCore.CurrentState.State == ChickenState.Eating)
+                if(_chickenCore.CurrentState.Type == ChickenState.Eating)
                 {
-                    _chickenCore.CurrentState = new IdleChickenState(_chickenCore);
+                    _chickenCore.ChangeState(ChickenState.Idle);
                 }
 
                 return;

@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0263c5471add574aade7f8ee9608ffb, type: 3}
+  m_Name: DebugChickenData
+  m_EditorClassIdentifier: 
+  _stateMultipliers:
+    KeyValueList:
+    - Key: 0
+      Value:
+        Dzin: 1
+        PlayerAvoidance: 1
+        FoodAttraction: 1
+        OtherDzins: 1
+        OtherChickens: 1
+    - Key: 1
+      Value:
+        Dzin: 3
+        PlayerAvoidance: 3
+        FoodAttraction: 0
+        OtherDzins: 2
+        OtherChickens: 3
+    - Key: 2
+      Value:
+        Dzin: 1
+        PlayerAvoidance: 0.5
+        FoodAttraction: 0
+        OtherDzins: 0.5
+        OtherChickens: 0
+  _canBeInDzinState: 0
+  _canBeInEatingState: 0
+  _mustComputePlayerAvoidance: 0
+  _mustComputeWallAvoidance: 0
+  _mustComputeVisibleCohesion: 0
+  _mustComputeIdleBehaviour: 1
+  _mustComputeGrainAttraction: 0
+  _minMetersPerSecond: 1
+  _maxMetersPerSecond: 4
+  _rotationSpeed: 60
+  _farthestPlayerDetection: 5
+  _distanceForMatchingSpeed: 2
+  _avoidanceFactorOnMaxPlayerSpeed: 2
+  _wallAvoidanceConeAngle: 30
+  _wallAvoidanceLength: 2
+  _minIdleChangePeriod: 2
+  _maxIdleChangePeriod: 10
+  _immobilityProbability: 0.6
+  _attractionRadius: 5
+  _attractionSpeed: 10

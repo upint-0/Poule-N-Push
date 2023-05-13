@@ -6,7 +6,7 @@ public class DzinChickenState : AChickenState
 
     protected override void SetState()
     {
-        State = ChickenState.Dzin;
+        Type = ChickenState.Dzin;
     }
 
     protected override Vector3 ComputeDirection()

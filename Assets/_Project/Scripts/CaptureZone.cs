@@ -29,11 +29,12 @@ public class CaptureZone : MonoBehaviour
     private void OnTriggerEnter( Collider other )
     {
         ChickenCore chicken = other?.GetComponent<ChickenCore>();
-        if ( chicken )
+        if ( chicken && chicken.Data.CanBeInEatingState)
         {
             Chickens.Add( chicken );
             _feedbacks.PlayFeedbacks();
-            other.gameObject.GetComponent<ChickenCore>().CurrentState = new EatingChickenState(other.gameObject.GetComponent<ChickenCore>());
+
+            chicken.ChangeState(ChickenState.Eating);
         }
         
     }

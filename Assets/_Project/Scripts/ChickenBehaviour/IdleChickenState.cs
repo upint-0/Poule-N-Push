@@ -6,7 +6,7 @@ public class IdleChickenState : AChickenState
 
     protected override void SetState()
     {
-        State = ChickenState.Idle;
+        Type = ChickenState.Idle;
     }
 
     protected override Vector3 ComputeDirection()

@@ -6,7 +6,7 @@ public class EatingChickenState : AChickenState
 
     protected override void SetState()
     {
-        State = ChickenState.Eating;
+        Type = ChickenState.Eating;
         // eating animation
     }
 

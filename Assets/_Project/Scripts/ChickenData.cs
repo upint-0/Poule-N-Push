@@ -5,6 +5,8 @@ using UnityEngine;
 public class ChickenData : ScriptableObject
 {
     [SerializeField] private SerializableDictionary<ChickenState, ChickenMultipliers> _stateMultipliers;
+    [SerializeField] private bool _canBeInDzinState = true;
+    [SerializeField] private bool _canBeInEatingState = true;
     [SerializeField] private bool _mustComputePlayerAvoidance = true;
     [SerializeField] private bool _mustComputeWallAvoidance = true;
     [SerializeField] private bool _mustComputeVisibleCohesion = true;
@@ -30,13 +32,15 @@ public class ChickenData : ScriptableObject
     [SerializeField] private float _attractionSpeed = 10f;
 
     public SerializableDictionary<ChickenState, ChickenMultipliers> StateMultipliers => _stateMultipliers;
-    public float MinMetersPerSecond => _minMetersPerSecond;
-    public float MaxMetersPerSecond => _maxMetersPerSecond;
+    public bool CanBeInDzinState => _canBeInDzinState;
+    public bool CanBeInEatingState => _canBeInEatingState;
     public bool MustComputePlayerAvoidance => _mustComputePlayerAvoidance;
     public bool MustComputeWallAvoidance => _mustComputeWallAvoidance;
     public bool MustComputeVisibleCohesion => _mustComputeVisibleCohesion;
     public bool MustComputeIdleBehaviour => _mustComputeIdleBehaviour;
     public bool MustComputeGrainAttraction => _mustComputeGrainAttraction;
+    public float MinMetersPerSecond => _minMetersPerSecond;
+    public float MaxMetersPerSecond => _maxMetersPerSecond;
     public float RotationSpeed => _rotationSpeed;
     public float FarthestPlayerDetection => _farthestPlayerDetection;
     public float DistanceForMatchingSpeed => _distanceForMatchingSpeed;
