@@ -49,10 +49,17 @@ public class RoundManager : MonoBehaviour
 
     public IEnumerator StartRound()
     {
-        for ( int i = 0; i < RoundDuration; i++ )
+        if( RoundDuration == 0 )
         {
-            RoundTiming += 1.0f;
-            yield return new WaitForSeconds( 1.0f );
+            yield break;
+        }
+        else
+        {
+            for ( int i = 0; i < RoundDuration; i++ )
+            {
+                RoundTiming += 1.0f;
+                yield return new WaitForSeconds( 1.0f );
+            }
         }
 
         int chickenPlayer1 = 0;
