@@ -42,6 +42,11 @@ public class VisibleCohesion : AChickenModule
 
     private void OnTriggerEnter(Collider other)
     {
+        if(!IsEnabled)
+        {
+            return;
+        }
+
         if(other.tag == "Chicken")   // if it lags, look here
         {
             _chickensinView.Add(other.gameObject);
@@ -50,6 +55,11 @@ public class VisibleCohesion : AChickenModule
 
     private void OnTriggerExit(Collider other)
     {
+        if(!IsEnabled)
+        {
+            return;
+        }
+
         if(other.tag == "Chicken")
         {
             _chickensinView.Remove(other.gameObject);

@@ -32,7 +32,7 @@ MonoBehaviour:
           - Key: 2
             Value:
               _isEnabled: 1
-              _weight: 1
+              _weight: 5
               _multiplier: 1
           - Key: 3
             Value:
@@ -77,7 +77,7 @@ MonoBehaviour:
           - Key: 2
             Value:
               _isEnabled: 1
-              _weight: 1
+              _weight: 5
               _multiplier: 1
           - Key: 3
             Value:
@@ -196,7 +196,7 @@ MonoBehaviour:
               _multiplier: 0.5
   _minMetersPerSecond: 1
   _maxMetersPerSecond: 4
-  _rotationSpeed: 60
+  _rotationSpeed: 360
   _farthestPlayerDetection: 2
   _distanceForMatchingSpeed: 1
   _wallAvoidanceConeAngle: 30

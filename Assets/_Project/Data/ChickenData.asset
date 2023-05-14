@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0263c5471add574aade7f8ee9608ffb, type: 3}
   m_Name: ChickenData
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   _stateDataMap:
     KeyValueList:
     - Key: 0
@@ -32,7 +32,7 @@ MonoBehaviour:
           - Key: 2
             Value:
               _isEnabled: 1
-              _weight: 1
+              _weight: 5
               _multiplier: 1
           - Key: 3
             Value:
@@ -77,7 +77,7 @@ MonoBehaviour:
           - Key: 2
             Value:
               _isEnabled: 1
-              _weight: 1
+              _weight: 5
               _multiplier: 1
           - Key: 3
             Value:
@@ -196,7 +196,7 @@ MonoBehaviour:
               _multiplier: 0.5
   _minMetersPerSecond: 1
   _maxMetersPerSecond: 4
-  _rotationSpeed: 60
+  _rotationSpeed: 360
   _farthestPlayerDetection: 5
   _distanceForMatchingSpeed: 2
   _wallAvoidanceConeAngle: 30

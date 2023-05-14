@@ -16,6 +16,8 @@ public class ChickenCore : MonoBehaviour
         if(!Data[stateType].IsEnabled)
         {
             Debug.LogWarning($"{stateType} is not enabled");
+
+            return;
         }
 
         switch(stateType)
@@ -37,15 +39,6 @@ public class ChickenCore : MonoBehaviour
 
     private void Awake()
     {
-        if(Data[ChickenStateType.Wandering].IsEnabled)
-        {
-            CurrentState = Random.value > 0.5f ? new IdleChickenState(this) : new WanderingChickenState(this);
-        }
-        else
-        {
-            CurrentState = new IdleChickenState(this);
-        }
-
         Movement = GetComponent<ChickenMovement>();
         Movement.Initialize(Data);
 
@@ -55,6 +48,8 @@ public class ChickenCore : MonoBehaviour
         {
             module.Initialize(this);
         }
+
+        CurrentState = new IdleChickenState(this);
     }
 
     private void Update()

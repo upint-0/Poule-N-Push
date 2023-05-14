@@ -13,42 +13,63 @@ public class RandomMovement : AChickenModule
 
     public override void Execute(ChickenModuleData moduleData) { }
 
+    public override void SetEnabled(bool isEnabled)
+    {
+        base.SetEnabled(isEnabled);
+
+        if(isEnabled)
+        {
+            SelectNewBehaviour(canChangeState: false);
+            _nextChangeTime = Time.time + Random.Range(_chicken.Data.MinWanderingChangePeriod, _chicken.Data.MaxWanderingChangePeriod);
+        }
+    }
+
     private void CheckForChange()
     {
         if(Time.time >= _nextChangeTime)
         {
-            SelectNewBehaviour();
-            _nextChangeTime += Random.Range(_chicken.Data.MinWanderingChangePeriod, _chicken.Data.MaxWanderingChangePeriod);
+            SelectNewBehaviour(canChangeState: true);
+            _nextChangeTime = Time.time + Random.Range(_chicken.Data.MinWanderingChangePeriod, _chicken.Data.MaxWanderingChangePeriod);
         }
     }
 
-    private void SelectNewBehaviour()
+    private void SelectNewBehaviour(bool canChangeState)
     {
-        if(Random.value < _chicken.Data.ToIdleProbability)
+        if(canChangeState && Random.value < _chicken.Data.ToIdleProbability)
         {
             _chicken.ChangeState(ChickenStateType.Idle);
         }
         else
         {
-            Vector2 randomDirection2d = Random.insideUnitCircle.normalized;
-            ResultingDirection = new Vector3(randomDirection2d.x, 0f, randomDirection2d.y);
-            ResultingSpeed = Random.Range(_chicken.Data.MinMetersPerSecond, _chicken.Data.MaxMetersPerSecond);
+            ComputeNewMovement();
         }
     }
 
-    public void ForceNextChangeTime(float period)
+    private void ComputeNewMovement()
     {
-        _nextChangeTime += period;
+        Vector2 randomDirection2d = Random.insideUnitCircle.normalized;
+        ResultingDirection = new Vector3(randomDirection2d.x, 0f, randomDirection2d.y);
+        ResultingSpeed = Random.Range(_chicken.Data.MinMetersPerSecond, _chicken.Data.MaxMetersPerSecond);
     }
 
     private void Update()
     {
+        if(!IsEnabled)
+        {
+            return;
+        }
+
         CheckForChange();
     }
 
     private void OnDrawGizmos()
     {
+        if(!IsEnabled)
+        {
+            return;
+        }
+
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position, transform.position + ResultingDirection);
+        Gizmos.DrawLine(transform.position, transform.position + ResultingDirection * ResultingSpeed);
     }
 }

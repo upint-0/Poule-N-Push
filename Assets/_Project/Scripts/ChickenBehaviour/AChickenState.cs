@@ -20,7 +20,7 @@ public abstract class AChickenState
 
         foreach(AChickenModule module in _chicken.ChickenModules)
         {
-            module.gameObject.SetActive(_chicken.Data[this.Type][module.Type].IsEnabled);
+            module.SetEnabled(_chicken.Data[this.Type][module.Type].IsEnabled);
         }
     }
 
@@ -32,18 +32,18 @@ public abstract class AChickenState
 
         foreach(AChickenModule module in _chicken.ChickenModules)
         {
-            ChickenModuleData moduleData = _chicken.Data[Type][module.Type];
-            if(moduleData.IsEnabled)
+            if(module.IsEnabled)
             {
+                ChickenModuleData moduleData = _chicken.Data[Type][module.Type];
                 weightSum += moduleData.Weight;
                 module.Execute(moduleData);
                 resultingDirection += module.ResultingDirection * moduleData.Weight;
-                resultingSpeed += module.ResultingSpeed * moduleData.Weight;
+                resultingSpeed = Mathf.Max(resultingSpeed, module.ResultingSpeed);
             }
         }
 
-        _chicken.Movement.CurrentDirection = resultingDirection / weightSum;
-        _chicken.Movement.CurrentSpeed = resultingSpeed / weightSum;
+        _chicken.Movement.CurrentDirection = (resultingDirection / weightSum).normalized;
+        _chicken.Movement.CurrentSpeed = resultingSpeed;
 
         // probabilité de dzin en fonction de la distance du joueur et de la distance des poulets dzinés
     }

@@ -13,12 +13,22 @@ public class RandomWait : AChickenModule
 
     public override void Execute(ChickenModuleData moduleData) { }
 
+    public override void SetEnabled(bool isEnabled)
+    {
+        base.SetEnabled(isEnabled);
+
+        if(isEnabled)
+        {
+            _nextChangeTime = Time.time + Random.Range(_chicken.Data.MinIdleChangePeriod, _chicken.Data.MaxIdleChangePeriod);
+        }
+    }
+
     private void CheckForChange()
     {
         if(Time.time >= _nextChangeTime)
         {
             SelectNewBehaviour();
-            _nextChangeTime += Random.Range(_chicken.Data.MinIdleChangePeriod, _chicken.Data.MaxIdleChangePeriod);
+            _nextChangeTime = Time.time + Random.Range(_chicken.Data.MinIdleChangePeriod, _chicken.Data.MaxIdleChangePeriod);
         }
     }
 
@@ -32,11 +42,16 @@ public class RandomWait : AChickenModule
 
     public void ForceNextChangeTime(float period)
     {
-        _nextChangeTime += period;
+        _nextChangeTime = Time.time + period;
     }
 
     private void Update()
     {
+        if(!IsEnabled)
+        {
+            return;
+        }
+
         CheckForChange();
     }
 }

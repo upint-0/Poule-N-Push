@@ -26,16 +26,13 @@ public class PlayerAvoidance : AChickenModule
         _player2Threat = ComputeThreat(_player2, chickenDirectionFromPlayer2);
 
         //average between the opposite directions of each players, but the biggest threat has more impact
-         Vector3 player1WeightedDirection = _player1Threat * chickenDirectionFromPlayer1;
-         Vector3 player2WeightedDirection = _player2Threat * chickenDirectionFromPlayer2;
+        Vector3 player1WeightedDirection = _player1Threat * chickenDirectionFromPlayer1;
+        Vector3 player2WeightedDirection = _player2Threat * chickenDirectionFromPlayer2;
         ResultingDirection = (player1WeightedDirection + player2WeightedDirection).normalized;
 
         //the speed is equal to the biggest threat, but never faster than max speed
         float biggestThreat = Mathf.Max(_player1Threat, _player2Threat);
         ResultingSpeed = Mathf.Min(biggestThreat, _chicken.Data.MaxMetersPerSecond);
-
-        //the player avoidance shouldn't slow down the chicken
-        ResultingSpeed = Mathf.Max(ResultingSpeed, _chicken.Movement.CurrentSpeed);
     }
 
     private float ComputeThreat(PlayerController player, Vector3 chickenDirectionFromPlayer)
@@ -72,6 +69,11 @@ public class PlayerAvoidance : AChickenModule
 
     private void OnDrawGizmos()
     {
+        if(!IsEnabled)
+        {
+            return;
+        }
+
         //directed threat from both players in their respective color
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(_player1.transform.position.x - transform.position.x, 0f, _player1.transform.position.z - transform.position.z).normalized * _player1Threat);
@@ -80,12 +82,17 @@ public class PlayerAvoidance : AChickenModule
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(_player2.transform.position.x - transform.position.x, 0f, _player2.transform.position.z - transform.position.z).normalized * _player2Threat);
 
         //final velocity
-        Gizmos.color = Color.white;
+        Gizmos.color = new Color(0.25f, 0f, 0.53f);
         Gizmos.DrawLine(transform.position, transform.position + ResultingDirection * ResultingSpeed);
     }
 
     private void OnDrawGizmosSelected()
     {
+        if(!IsEnabled)
+        {
+            return;
+        }
+
         //player detection
         if(ResultingSpeed > 0f)
         {
