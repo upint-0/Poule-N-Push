@@ -14,7 +14,7 @@ public class IdleBehaviour : MonoBehaviour
 
     private void SelectNewBehaviour()
     {
-        if(Random.value < _chicken.Data.ToWanderingProbability)
+        if(Random.value < _chicken.Data.ToWanderingProbability && _chicken.Data.CanBeInWanderingState)
         {
             _chicken.ChangeState(ChickenState.Wandering);
         }
