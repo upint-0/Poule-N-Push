@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BoxCollider))]
-public class VisibleCohesion : MonoBehaviour
+public class VisibleCohesion : AChickenModule
 {
     BoxCollider _visionCollider;
     HashSet<GameObject> _chickensinView = new HashSet<GameObject>();
@@ -12,25 +12,25 @@ public class VisibleCohesion : MonoBehaviour
         _visionCollider = GetComponent<BoxCollider>();
     }
 
-    public Vector3 ComputeDirection(ChickenMultipliers multipliers)
+    public override void Execute(ChickenModuleData moduleData)
     {
         if(_chickensinView.Count == 0)
         {
-            return Vector3.zero;
+            ResultingDirection = Vector3.zero;
         }
-
-        Vector3 averagePosition = Vector3.zero;
-
-        foreach(GameObject chicken in _chickensinView)
+        else
         {
-            averagePosition += chicken.transform.position;
+            Vector3 averagePosition = Vector3.zero;
+
+            foreach(GameObject chicken in _chickensinView)
+            {
+                averagePosition += chicken.transform.position;
+            }
+
+            averagePosition = averagePosition / _chickensinView.Count;
+
+            ResultingDirection = (averagePosition - transform.position) * moduleData.Multiplier;
         }
-
-        averagePosition = averagePosition / _chickensinView.Count;
-
-        Vector3 direction = (averagePosition - transform.position) * multipliers.OtherChickens;
-
-        return direction;
     }
 
     private void OnTriggerEnter(Collider other)

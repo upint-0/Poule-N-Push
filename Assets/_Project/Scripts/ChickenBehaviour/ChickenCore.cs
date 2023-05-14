@@ -1,5 +1,6 @@
-using UnityEditor;
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ChickenCore : MonoBehaviour
 {
@@ -7,44 +8,36 @@ public class ChickenCore : MonoBehaviour
 
     public AChickenState CurrentState { get; private set; }
     public ChickenMovement Movement { get; private set; }
-    public PlayerAvoidance PlayerAvoidance { get; private set; }
-    public WallAvoidance WallAvoidance { get; private set; }
-    public IdleBehaviour IdleBehaviour { get; private set; }
-    public WanderingBehaviour WanderingBehaviour { get; private set; }
-    public VisibleCohesion VisibleCohesion { get; private set; }
-    public GrainAttraction GrainAttraction { get; private set; }
+    public AChickenModule[] ChickenModules { get; private set; }
+    public AChickenModule this[ChickenModuleType type] => Array.Find(ChickenModules, module => module.Type == type);
 
-    public void ChangeState(ChickenState stateType)
+    public void ChangeState(ChickenStateType stateType)
     {
+        if(!Data[stateType].IsEnabled)
+        {
+            Debug.LogWarning($"{stateType} is not enabled");
+        }
+
         switch(stateType)
         {
-            case ChickenState.Idle:
+            case ChickenStateType.Idle:
                 CurrentState = new IdleChickenState(this);
                 break;
-            case ChickenState.Wandering:
-                if(Data.CanBeInWanderingState)
-                {
-                    CurrentState = new WanderingChickenState(this);
-                }
+            case ChickenStateType.Wandering:
+                CurrentState = new WanderingChickenState(this);
                 break;
-            case ChickenState.Dzin:
-                if(Data.CanBeInDzinState)
-                {
-                    CurrentState = new DzinChickenState(this);
-                }
+            case ChickenStateType.Dzin:
+                CurrentState = new DzinChickenState(this);
                 break;
-            case ChickenState.Eating:
-                if(Data.CanBeInEatingState)
-                {
-                    CurrentState = new EatingChickenState(this);
-                }
+            case ChickenStateType.Eating:
+                CurrentState = new EatingChickenState(this);
                 break;
         }
     }
 
     private void Awake()
     {
-        if(Data.CanBeInWanderingState)
+        if(Data[ChickenStateType.Wandering].IsEnabled)
         {
             CurrentState = Random.value > 0.5f ? new IdleChickenState(this) : new WanderingChickenState(this);
         }
@@ -55,32 +48,29 @@ public class ChickenCore : MonoBehaviour
 
         Movement = GetComponent<ChickenMovement>();
         Movement.Initialize(Data);
-        PlayerAvoidance = GetComponent<PlayerAvoidance>();
-        PlayerAvoidance.Initialize(Data);
-        WallAvoidance = GetComponent<WallAvoidance>();
-        WallAvoidance.Initialize(Data);
-        IdleBehaviour = GetComponent<IdleBehaviour>();
-        IdleBehaviour.Initialize(this);
-        WanderingBehaviour = GetComponent<WanderingBehaviour>();
-        WanderingBehaviour.Initialize(this);
-        VisibleCohesion = GetComponentInChildren<VisibleCohesion>();
-        GrainAttraction = GetComponent<GrainAttraction>();
-        GrainAttraction.Initialize(Data);
+
+        ChickenModules = GetComponentsInChildren<AChickenModule>();
+
+        foreach( AChickenModule module in ChickenModules)
+        {
+            module.Initialize(this);
+        }
     }
 
     private void Update()
     {
-        CurrentState.ApplyBehaviour();
+        CurrentState.ExecuteModules();
+        Movement.ApplyMovement();
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = CurrentState.Type switch
         {
-            ChickenState.Idle => Color.blue,
-            ChickenState.Wandering => Color.green,
-            ChickenState.Dzin => Color.red,
-            ChickenState.Eating => Color.yellow,
+            ChickenStateType.Idle => Color.blue,
+            ChickenStateType.Wandering => Color.green,
+            ChickenStateType.Dzin => Color.red,
+            ChickenStateType.Eating => Color.yellow,
             _ => Color.black
         };
 

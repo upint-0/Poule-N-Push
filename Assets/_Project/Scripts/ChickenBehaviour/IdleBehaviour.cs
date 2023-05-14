@@ -1,29 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class IdleBehaviour : MonoBehaviour
+public class IdleBehaviour : AChickenModule
 {
     private float _nextChangeTime;
-    private ChickenCore _chicken;
 
-    public void Initialize(ChickenCore chicken)
-    {
-        _chicken = chicken;
-    }
-
-    private void SelectNewBehaviour()
-    {
-        if(Random.value < _chicken.Data.ToWanderingProbability && _chicken.Data.CanBeInWanderingState)
-        {
-            _chicken.ChangeState(ChickenState.Wandering);
-        }
-    }
-
-    private void Update()
-    {
-        CheckForChange();
-    }
+    public override void Execute(ChickenModuleData moduleData) { }
 
     private void CheckForChange()
     {
@@ -34,8 +15,21 @@ public class IdleBehaviour : MonoBehaviour
         }
     }
 
+    private void SelectNewBehaviour()
+    {
+        if(Random.value < _chicken.Data.ToWanderingProbability)
+        {
+            _chicken.ChangeState(ChickenStateType.Wandering);
+        }
+    }
+
     public void ForceNextChangeTime(float period)
     {
         _nextChangeTime += period;
+    }
+
+    private void Update()
+    {
+        CheckForChange();
     }
 }

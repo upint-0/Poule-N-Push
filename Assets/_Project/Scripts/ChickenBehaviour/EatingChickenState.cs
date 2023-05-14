@@ -1,24 +1,21 @@
-using UnityEngine;
-
 public class EatingChickenState : AChickenState
 {
-    public EatingChickenState(ChickenCore chickenCore) : base(chickenCore) { }
+    public EatingChickenState(ChickenCore chicken) : base(chicken) { }
 
     protected override void SetState()
     {
-        Type = ChickenState.Eating;
+        Type = ChickenStateType.Eating;
         // eating animation
     }
 
-    protected override Vector3 ComputeDirection()
+    public override void ExecuteModules()
     {
-        Vector3 direction = Vector3.zero;
+        base.ExecuteModules();
 
-        return direction;
-    }
-
-    protected override float ComputeSpeed()
-    {
-        return 0f;
+        //use events?
+        if(_chicken[ChickenModuleType.PlayerAvoidance].ResultingSpeed > 0f)
+        {
+            _chicken.ChangeState(ChickenStateType.Eating);
+        }
     }
 }

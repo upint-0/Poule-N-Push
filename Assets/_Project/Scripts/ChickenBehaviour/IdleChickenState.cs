@@ -1,42 +1,11 @@
-using UnityEngine;
-
 public class IdleChickenState : AChickenState
 {
-    public IdleChickenState(ChickenCore chickenCore) : base(chickenCore) { }
+    public IdleChickenState(ChickenCore chicken) : base(chicken) { }
 
     protected override void SetState()
     {
-        Type = ChickenState.Idle;
+        Type = ChickenStateType.Idle;
     }
 
-    protected override Vector3 ComputeDirection()
-    {
-        Vector3 direction = Vector3.zero;
-
-        if(_chickenCore.Data.MustComputeVisibleCohesion)
-        {
-            direction += _chickenCore.VisibleCohesion.ComputeDirection(_multipliers);
-        }
-
-        if(_chickenCore.Data.MustComputeGrainAttraction)
-        {
-            direction += _chickenCore.GrainAttraction.ComputeDirection(_multipliers);
-        }
-
-        return direction;
-    }
-
-    protected override float ComputeSpeed()
-    {
-        float speed = 0f;
-
-        if(_chickenCore.Data.MustComputeGrainAttraction)
-        {
-            speed += _chickenCore.GrainAttraction.ComputeSpeed();
-        }
-
-        // la cohésion devrait pouvoir interrompre l’immobilité
-
-        return speed;
-    }
+    // la cohésion devrait pouvoir interrompre l’immobilité
 }

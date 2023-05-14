@@ -1,37 +1,23 @@
 using UnityEngine;
 
-public class GrainAttraction : MonoBehaviour
+public class GrainAttraction : AChickenModule
 {
-    bool _grainIsInAttractionRadius;
-
-    private ChickenData _chickenData;
-
-    public void Initialize(ChickenData data)
+    public override void Execute(ChickenModuleData moduleData)
     {
-        _chickenData = data;
-    }
-
-    public Vector3 ComputeDirection(ChickenMultipliers multipliers)
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, _chickenData.AttractionRadius * multipliers.FoodAttraction, LayerMask.NameToLayer("Grain"));
+        bool grainIsInAttractionRadius = false;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, _chicken.Data.AttractionRadius * moduleData.Multiplier, LayerMask.NameToLayer("Grain"));
 
         if(colliders.Length > 0)
         {
-            _grainIsInAttractionRadius = true;
+            grainIsInAttractionRadius = true;
 
-            return (colliders[0].transform.position - transform.position).normalized;
+            ResultingDirection = (colliders[0].transform.position - transform.position).normalized;
         }
-
-        return Vector3.zero;
-    }
-
-    public float ComputeSpeed()
-    {
-        if(_grainIsInAttractionRadius)
+        else
         {
-            return _chickenData.AttractionSpeed;
+            ResultingDirection = Vector3.zero;
         }
 
-        return 0f;
+        ResultingSpeed = grainIsInAttractionRadius ? _chicken.Data.AttractionSpeed : 0f;
     }
 }

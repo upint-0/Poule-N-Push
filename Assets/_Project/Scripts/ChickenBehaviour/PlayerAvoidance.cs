@@ -1,33 +1,19 @@
 using UnityEditor;
 using UnityEngine;
 
-public class PlayerAvoidance : MonoBehaviour
+public class PlayerAvoidance : AChickenModule
 {
-    private ChickenData _chickenData;
     private PlayerController _player1;
     private PlayerController _player2;
     private float _actualFarthestPlayerDetection;
     private float _player1Threat;
     private float _player2Threat;
-    private Vector3 _resultingDirection;
-    private float _resultingSpeed;
 
-    private void Awake()
-    {
-        _player1 = GameObject.FindWithTag("Player1").GetComponent<PlayerController>();
-        _player2 = GameObject.FindWithTag("Player2").GetComponent<PlayerController>();
-    }
-
-    public void Initialize(ChickenData data)
-    {
-        _chickenData = data;
-    }
-
-    public Vector3 ComputeDirection(ChickenMultipliers multipliers)
+    public override void Execute(ChickenModuleData moduleData)
     {
         Vector3 chickenDirectionFromPlayer1 = new Vector3(transform.position.x - _player1.transform.position.x, 0f, transform.position.z - _player1.transform.position.z);
         Vector3 chickenDirectionFromPlayer2 = new Vector3(transform.position.x - _player2.transform.position.x, 0f, transform.position.z - _player2.transform.position.z);
-        _actualFarthestPlayerDetection = _chickenData.FarthestPlayerDetection * multipliers.PlayerAvoidance;
+        _actualFarthestPlayerDetection = _chicken.Data.FarthestPlayerDetection * moduleData.Multiplier;
 
         _player1Threat = ComputeThreat(_player1, chickenDirectionFromPlayer1);
         _player2Threat = ComputeThreat(_player2, chickenDirectionFromPlayer2);
@@ -35,18 +21,14 @@ public class PlayerAvoidance : MonoBehaviour
         //average between the opposite directions of each players, but the biggest threat has more impact
          Vector3 player1WeightedDirection = _player1Threat * chickenDirectionFromPlayer1;
          Vector3 player2WeightedDirection = _player2Threat * chickenDirectionFromPlayer2;
-         _resultingDirection = (player1WeightedDirection + player2WeightedDirection).normalized;
+        ResultingDirection = (player1WeightedDirection + player2WeightedDirection).normalized;
 
-        return _resultingDirection;
-    }
-
-    public float ComputeSpeed()
-    {
         //the speed is equal to the biggest threat, but never faster than max speed
         float biggestThreat = Mathf.Max(_player1Threat, _player2Threat);
-        _resultingSpeed = Mathf.Min(biggestThreat, _chickenData.MaxMetersPerSecond);
+        ResultingSpeed = Mathf.Min(biggestThreat, _chicken.Data.MaxMetersPerSecond);
 
-        return _resultingSpeed;
+        //the player avoidance shouldn't slow down the chicken
+        ResultingSpeed = Mathf.Max(ResultingSpeed, _chicken.Movement.CurrentSpeed);
     }
 
     private float ComputeThreat(PlayerController player, Vector3 chickenDirectionFromPlayer)
@@ -54,7 +36,7 @@ public class PlayerAvoidance : MonoBehaviour
         float playerThreat = 0f;
         float distanceWithPlayer = Vector3.Distance(player.transform.position, transform.position);
 
-        if(distanceWithPlayer < _chickenData.FarthestPlayerDetection)
+        if(distanceWithPlayer < _chicken.Data.FarthestPlayerDetection)
         {
             //speed towards chicken
             float playerOffsetAngle = Vector3.Angle(player.transform.forward, chickenDirectionFromPlayer);
@@ -65,14 +47,20 @@ public class PlayerAvoidance : MonoBehaviour
             playerThreat = Math.Remap(
                 value: distanceWithPlayer,
                 min1: _actualFarthestPlayerDetection,
-                max1: _chickenData.DistanceForMatchingSpeed,
-                min2: _chickenData.MinMetersPerSecond,
+                max1: _chicken.Data.DistanceForMatchingSpeed,
+                min2: _chicken.Data.MinMetersPerSecond,
                 max2: playerSpeedTowardsChicken,
                 mustClampAtMin: true
                 );
         }
 
         return playerThreat;
+    }
+
+    private void Awake()
+    {
+        _player1 = GameObject.FindWithTag("Player1").GetComponent<PlayerController>();
+        _player2 = GameObject.FindWithTag("Player2").GetComponent<PlayerController>();
     }
 
     private void OnDrawGizmos()
@@ -86,13 +74,13 @@ public class PlayerAvoidance : MonoBehaviour
 
         //final velocity
         Gizmos.color = Color.white;
-        Gizmos.DrawLine(transform.position, transform.position + _resultingDirection * _resultingSpeed);
+        Gizmos.DrawLine(transform.position, transform.position + ResultingDirection * ResultingSpeed);
     }
 
     private void OnDrawGizmosSelected()
     {
         //player detection
-        if(_resultingSpeed > 0f)
+        if(ResultingSpeed > 0f)
         {
             Handles.color = Color.red;
         }

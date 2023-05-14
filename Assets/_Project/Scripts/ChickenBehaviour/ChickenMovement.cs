@@ -3,25 +3,19 @@ using UnityEngine.AI;
 
 public class ChickenMovement : MonoBehaviour
 {
-    public Vector3 CurrentDirection { get; private set; }
+    public Vector3 CurrentDirection { get; set; }
     public float CurrentSpeed { get; set; }
 
     private NavMeshAgent _agent = null;
     private ChickenData _chickenData;
 
-    public void SetCurrentDirection(Vector3 value) { CurrentDirection = value; }
-
     public void Initialize(ChickenData data)
     {
         _chickenData = data;
-    }
-
-    private void Start()
-    {
         _agent = GetComponent<NavMeshAgent>();
     }
 
-    private void Update()
+    public void ApplyMovement()
     {
         if(CurrentSpeed <= 0.1f)
         {

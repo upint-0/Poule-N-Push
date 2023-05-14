@@ -1,71 +1,52 @@
 using UnityEngine;
 
-public enum ChickenState
+public enum ChickenStateType
 {
-    Idle,
-    Wandering,
-    Dzin,
-    Eating,
+    Idle = 0,
+    Wandering = 1,
+    Dzin = 2,
+    Eating = 3,
 }
 
 public abstract class AChickenState
 {
-    public ChickenState Type { get; set; }
-    protected ChickenCore _chickenCore;
-    protected ChickenMultipliers _multipliers;
+    public ChickenStateType Type { get; set; }
+    protected ChickenCore _chicken;
 
-    public AChickenState(ChickenCore chickenCore)
+    public AChickenState(ChickenCore chicken)
     {
-        _chickenCore = chickenCore;
+        _chicken = chicken;
         SetState();
-        _multipliers = _chickenCore.Data.StateMultipliers[Type];
+
+        foreach(AChickenModule module in _chicken.ChickenModules)
+        {
+            module.gameObject.SetActive(_chicken.Data[this.Type][module.Type].IsEnabled);
+        }
     }
 
-    public void ApplyBehaviour()
+    public virtual void ExecuteModules()
     {
+        float weightSum = 0f;
+        Vector3 resultingDirection = Vector3.zero;
+        float resultingSpeed = 0f;
+
+        foreach(AChickenModule module in _chicken.ChickenModules)
+        {
+            ChickenModuleData moduleData = _chicken.Data[Type][module.Type];
+            if(moduleData.IsEnabled)
+            {
+                weightSum += moduleData.Weight;
+                module.Execute(moduleData);
+                resultingDirection += module.ResultingDirection * moduleData.Weight;
+                resultingSpeed += module.ResultingSpeed * moduleData.Weight;
+            }
+        }
+
+        _chicken.Movement.CurrentDirection = resultingDirection / weightSum;
+        _chicken.Movement.CurrentSpeed = resultingSpeed / weightSum;
+
         // probabilité de dzin en fonction de la distance du joueur et de la distance des poulets dzinés
-
-        if(_chickenCore.Data.MustComputeWallAvoidance)
-        {
-            Vector3 wallAvoidanceDirection = _chickenCore.WallAvoidance.ComputeDirection(_multipliers);
-
-            if(wallAvoidanceDirection != Vector3.zero)
-            {
-                _chickenCore.Movement.SetCurrentDirection(wallAvoidanceDirection);
-                _chickenCore.transform.forward = wallAvoidanceDirection;
-                _chickenCore.IdleBehaviour.ForceNextChangeTime(1.0f);
-
-                return;
-            }
-        }
-
-        if(_chickenCore.Data.MustComputePlayerAvoidance)
-        {
-            Vector3 playerAvoidanceDirection = _chickenCore.PlayerAvoidance.ComputeDirection(_multipliers);
-            _chickenCore.Movement.SetCurrentDirection(playerAvoidanceDirection);
-            float playerAvoidanceSpeed = _chickenCore.PlayerAvoidance.ComputeSpeed();
-
-            if(_chickenCore.Movement.CurrentSpeed < playerAvoidanceSpeed)
-            {
-                _chickenCore.Movement.CurrentSpeed = playerAvoidanceSpeed;
-            }
-
-            if(playerAvoidanceDirection != Vector3.zero)
-            {
-                if(_chickenCore.CurrentState.Type == ChickenState.Eating)
-                {
-                    _chickenCore.ChangeState(ChickenState.Wandering);
-                }
-
-                return;
-            }
-        }
-
-        _chickenCore.Movement.SetCurrentDirection(ComputeDirection());
-        _chickenCore.Movement.CurrentSpeed = ComputeSpeed();
     }
 
-    protected abstract Vector3 ComputeDirection();
-    protected abstract float ComputeSpeed();
     protected abstract void SetState();
 }

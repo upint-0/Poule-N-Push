@@ -12,42 +12,200 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0263c5471add574aade7f8ee9608ffb, type: 3}
   m_Name: ChickenData
   m_EditorClassIdentifier: 
-  _stateMultipliers:
+  _stateDataMap:
     KeyValueList:
     - Key: 0
       Value:
-        Dzin: 1
-        PlayerAvoidance: 1
-        FoodAttraction: 1
-        OtherDzins: 1
-        OtherChickens: 1
+        _isEnabled: 1
+        _moduleDataMap:
+          KeyValueList:
+          - Key: 0
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 1
+            Value:
+              _isEnabled: 0
+              _weight: 1
+              _multiplier: 1
+          - Key: 2
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 3
+            Value:
+              _isEnabled: 0
+              _weight: 1
+              _multiplier: 1
+          - Key: 4
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 5
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 6
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 7
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
     - Key: 1
       Value:
-        Dzin: 3
-        PlayerAvoidance: 3
-        FoodAttraction: 0
-        OtherDzins: 2
-        OtherChickens: 3
+        _isEnabled: 1
+        _moduleDataMap:
+          KeyValueList:
+          - Key: 0
+            Value:
+              _isEnabled: 0
+              _weight: 1
+              _multiplier: 1
+          - Key: 1
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 2
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 3
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 4
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 5
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 6
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 7
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
     - Key: 2
       Value:
-        Dzin: 1
-        PlayerAvoidance: 0.5
-        FoodAttraction: 0
-        OtherDzins: 0.5
-        OtherChickens: 0
-  _mustComputePlayerAvoidance: 1
-  _mustComputeWallAvoidance: 1
-  _mustComputeVisibleCohesion: 1
-  _mustComputeIdleBehaviour: 1
-  _mustComputeGrainAttraction: 1
+        _isEnabled: 1
+        _moduleDataMap:
+          KeyValueList:
+          - Key: 0
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 1
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 2
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 3
+          - Key: 3
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 4
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 5
+            Value:
+              _isEnabled: 0
+              _weight: 1
+              _multiplier: 1
+          - Key: 6
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 7
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 2
+    - Key: 3
+      Value:
+        _isEnabled: 1
+        _moduleDataMap:
+          KeyValueList:
+          - Key: 0
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 1
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 2
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 0.5
+          - Key: 3
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 4
+            Value:
+              _isEnabled: 0
+              _weight: 1
+              _multiplier: 1
+          - Key: 5
+            Value:
+              _isEnabled: 0
+              _weight: 1
+              _multiplier: 1
+          - Key: 6
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 1
+          - Key: 7
+            Value:
+              _isEnabled: 1
+              _weight: 1
+              _multiplier: 0.5
   _minMetersPerSecond: 1
   _maxMetersPerSecond: 4
   _rotationSpeed: 60
-  _playerAvoidanceRadius: 3
+  _farthestPlayerDetection: 5
+  _distanceForMatchingSpeed: 2
   _wallAvoidanceConeAngle: 30
   _wallAvoidanceLength: 2
   _minIdleChangePeriod: 2
   _maxIdleChangePeriod: 10
-  _immobilityProbability: 0.6
+  _toWanderingProbability: 0.6
+  _minWanderingChangePeriod: 2
+  _maxWanderingChangePeriod: 10
+  _toIdleProbability: 0.6
   _attractionRadius: 5
   _attractionSpeed: 10
