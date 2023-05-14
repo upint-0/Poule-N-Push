@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class WanderingBehaviour : AChickenModule
+public class RandomMovement : AChickenModule
 {
     private float _nextChangeTime;
 

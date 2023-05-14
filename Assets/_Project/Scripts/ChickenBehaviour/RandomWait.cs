@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class IdleBehaviour : AChickenModule
+public class RandomWait : AChickenModule
 {
     private float _nextChangeTime;
 
