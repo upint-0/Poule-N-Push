@@ -4,6 +4,13 @@ public class RandomWait : AChickenModule
 {
     private float _nextChangeTime;
 
+    public override void Initialize(ChickenCore chicken)
+    {
+        base.Initialize(chicken);
+
+        Type = ChickenModuleType.RandomWait;
+    }
+
     public override void Execute(ChickenModuleData moduleData) { }
 
     private void CheckForChange()

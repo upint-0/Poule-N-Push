@@ -9,6 +9,13 @@ public class PlayerAvoidance : AChickenModule
     private float _player1Threat;
     private float _player2Threat;
 
+    public override void Initialize(ChickenCore chicken)
+    {
+        base.Initialize(chicken);
+
+        Type = ChickenModuleType.PlayerAvoidance;
+    }
+
     public override void Execute(ChickenModuleData moduleData)
     {
         Vector3 chickenDirectionFromPlayer1 = new Vector3(transform.position.x - _player1.transform.position.x, 0f, transform.position.z - _player1.transform.position.z);

@@ -16,11 +16,11 @@ public class ChickenData : ScriptableObject
     [Header("Wall avoidance")]
     [SerializeField] private float _wallAvoidanceConeAngle = 30f;
     [SerializeField] private float _wallAvoidanceLength = 2f;
-    [Header("Idle behaviour")]
+    [Header("Random wait")]
     [SerializeField] private float _minIdleChangePeriod = 2f;
     [SerializeField] private float _maxIdleChangePeriod = 10f;
     [SerializeField][Range(0f, 1f)] private float _toWanderingProbability = 0.6f;
-    [Header("Wandering behaviour")]
+    [Header("Random movement")]
     [SerializeField] private float _minWanderingChangePeriod = 2f;
     [SerializeField] private float _maxWanderingChangePeriod = 10f;
     [SerializeField][Range(0f, 1f)] private float _toIdleProbability = 0.6f;

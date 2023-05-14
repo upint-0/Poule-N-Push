@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class WallAvoidance : AChickenModule
 {
+    public override void Initialize(ChickenCore chicken)
+    {
+        base.Initialize(chicken);
+
+        Type = ChickenModuleType.WallAvoidance;
+    }
+
     public override void Execute(ChickenModuleData moduleData)
     {
         Vector3 directionRight = Quaternion.Euler(0, _chicken.Data.WallAvoidanceConeAngle, 0) * transform.forward * _chicken.Data.WallAvoidanceLength;

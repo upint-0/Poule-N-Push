@@ -12,6 +12,13 @@ public class VisibleCohesion : AChickenModule
         _visionCollider = GetComponent<BoxCollider>();
     }
 
+    public override void Initialize(ChickenCore chicken)
+    {
+        base.Initialize(chicken);
+
+        Type = ChickenModuleType.VisibleCohesion;
+    }
+
     public override void Execute(ChickenModuleData moduleData)
     {
         if(_chickensinView.Count == 0)

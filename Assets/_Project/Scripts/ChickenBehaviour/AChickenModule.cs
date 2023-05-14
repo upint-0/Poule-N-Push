@@ -4,8 +4,8 @@ using UnityEngine;
 [Serializable]
 public enum ChickenModuleType
 {
-    IdleBehaviour = 0,
-    WanderingBehaviour = 1,
+    RandomWait = 0,
+    RandomMovement = 1,
     PlayerAvoidance = 2,
     WallAvoidance = 3,
     VisibleCohesion = 4,
@@ -17,7 +17,7 @@ public enum ChickenModuleType
 public abstract class AChickenModule : MonoBehaviour
 {
     protected ChickenCore _chicken;
-    public ChickenModuleType Type { get; private set; }
+    public ChickenModuleType Type { get; protected set; }
     public Vector3 ResultingDirection { get; protected set; }
     public float ResultingSpeed { get; protected set; }
 

@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class GrainAttraction : AChickenModule
 {
+    public override void Initialize(ChickenCore chicken)
+    {
+        base.Initialize(chicken);
+
+        Type = ChickenModuleType.GrainAttraction;
+    }
+
     public override void Execute(ChickenModuleData moduleData)
     {
         bool grainIsInAttractionRadius = false;
