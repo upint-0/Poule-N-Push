@@ -39,7 +39,7 @@ public class WallAvoidance : AChickenModule
         //}
 
         // Debug.DrawRay(transform.position, directionRight, right ? Color.black : Color.white);
-        Debug.DrawRay(transform.position, directionForward, forward ? Color.black : Color.white);
+        //Debug.DrawRay(transform.position, directionForward, forward ? Color.black : Color.white);
         //Debug.DrawRay(transform.position, directionLeft, left ? Color.black : Color.white);
 
         //if ( right || forward || left )
@@ -49,7 +49,7 @@ public class WallAvoidance : AChickenModule
         //}
         if(forward)
         {
-            Debug.DrawRay(transform.position, finalDir, Color.red);
+            //Debug.DrawRay(transform.position, finalDir, Color.red);
             ResultingDirection = normalAverage;
         }
     }
@@ -57,7 +57,7 @@ public class WallAvoidance : AChickenModule
     public LayerMask m_allowCollision;
     public bool IsHittingWall(ChickenModuleData moduleData)
     {
-        Debug.DrawLine(transform.position, transform.position + directionForward * 2f, Color.red);
+        //Debug.DrawLine(transform.position, transform.position + directionForward * 2f, Color.red);
         Vector3 directionForward = transform.forward * _chicken.Data.WallAvoidanceLength;
 
         bool forward = Physics.Raycast(transform.position, directionForward, out RaycastHit hitInfo, _chicken.Data.WallAvoidanceLength, m_allowCollision);
