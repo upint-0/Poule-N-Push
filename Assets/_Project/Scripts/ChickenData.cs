@@ -16,6 +16,7 @@ public class ChickenData : ScriptableObject
     [Header("Wall avoidance")]
     [SerializeField] private float _wallAvoidanceConeAngle = 30f;
     [SerializeField] private float _wallAvoidanceLength = 2f;
+    [SerializeField] private float _wallAvoidanceDuration = 2f;
     [Header("Random wait")]
     [SerializeField] private float _minIdleChangePeriod = 2f;
     [SerializeField] private float _maxIdleChangePeriod = 10f;
@@ -36,6 +37,7 @@ public class ChickenData : ScriptableObject
     public float DistanceForMatchingSpeed => _distanceForMatchingSpeed;
     public float WallAvoidanceConeAngle => _wallAvoidanceConeAngle;
     public float WallAvoidanceLength => _wallAvoidanceLength;
+    public float WallAvoidanceDuration => _wallAvoidanceDuration;
     public float MinIdleChangePeriod => _minIdleChangePeriod;
     public float MaxIdleChangePeriod => _maxIdleChangePeriod;
     public float ToWanderingProbability => _toWanderingProbability;

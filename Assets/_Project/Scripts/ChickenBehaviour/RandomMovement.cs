@@ -11,7 +11,16 @@ public class RandomMovement : AChickenModule
         Type = ChickenModuleType.RandomMovement;
     }
 
-    public override void Execute(ChickenModuleData moduleData) { }
+    public override void Execute(ChickenModuleData moduleData)
+    {
+        if(Time.time < _nextChangeTime)
+        {
+            return;
+        }
+
+        SelectNewBehaviour(canChangeState: true);
+        _nextChangeTime = Time.time + Random.Range(_chicken.Data.MinWanderingChangePeriod, _chicken.Data.MaxWanderingChangePeriod);
+    }
 
     public override void SetEnabled(bool isEnabled)
     {
@@ -20,15 +29,6 @@ public class RandomMovement : AChickenModule
         if(isEnabled)
         {
             SelectNewBehaviour(canChangeState: false);
-            _nextChangeTime = Time.time + Random.Range(_chicken.Data.MinWanderingChangePeriod, _chicken.Data.MaxWanderingChangePeriod);
-        }
-    }
-
-    private void CheckForChange()
-    {
-        if(Time.time >= _nextChangeTime)
-        {
-            SelectNewBehaviour(canChangeState: true);
             _nextChangeTime = Time.time + Random.Range(_chicken.Data.MinWanderingChangePeriod, _chicken.Data.MaxWanderingChangePeriod);
         }
     }
@@ -50,16 +50,6 @@ public class RandomMovement : AChickenModule
         Vector2 randomDirection2d = Random.insideUnitCircle.normalized;
         ResultingDirection = new Vector3(randomDirection2d.x, 0f, randomDirection2d.y);
         ResultingSpeed = Random.Range(_chicken.Data.MinMetersPerSecond, _chicken.Data.MaxMetersPerSecond);
-    }
-
-    private void Update()
-    {
-        if(!IsEnabled)
-        {
-            return;
-        }
-
-        CheckForChange();
     }
 
     private void OnDrawGizmos()

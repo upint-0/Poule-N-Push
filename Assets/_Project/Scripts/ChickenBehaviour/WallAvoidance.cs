@@ -2,12 +2,13 @@ using UnityEngine;
 
 public class WallAvoidance : AChickenModule
 {
-    private Vector3 rightDetection;
-    private Vector3 forwardDetection;
-    private Vector3 leftDetection;
-    private bool rightIsDetecting;
-    private bool forwardIsDetecting;
-    private bool leftIsDetecting;
+    private Vector3 _rightDetection;
+    private Vector3 _forwardDetection;
+    private Vector3 _leftDetection;
+    private bool _rightIsDetecting;
+    private bool _forwardIsDetecting;
+    private bool _leftIsDetecting;
+    private float _nextDetectionTime;
 
     public override void Initialize(ChickenCore chicken)
     {
@@ -18,29 +19,54 @@ public class WallAvoidance : AChickenModule
 
     public override void Execute(ChickenModuleData moduleData)
     {
-        rightDetection = Quaternion.Euler(0, _chicken.Data.WallAvoidanceConeAngle, 0) * transform.forward * _chicken.Data.WallAvoidanceLength;
-        forwardDetection = transform.forward * _chicken.Data.WallAvoidanceLength;
-        leftDetection = Quaternion.Euler(0, -_chicken.Data.WallAvoidanceConeAngle, 0) * transform.forward * _chicken.Data.WallAvoidanceLength;
+        if(Time.time < _nextDetectionTime)
+        {
+            return;
+        }
+
+        Detect();
+
+        if(ResultingDirection != Vector3.zero)
+        {
+            _nextDetectionTime = Time.time + _chicken.Data.WallAvoidanceDuration;
+        }
+    }
+
+    public override void SetEnabled(bool isEnabled)
+    {
+        base.SetEnabled(isEnabled);
+
+        if(isEnabled)
+        {
+            _nextDetectionTime = Time.time;
+        }
+    }
+
+    private void Detect()
+    {
+        _rightDetection = Quaternion.Euler(0, _chicken.Data.WallAvoidanceConeAngle, 0) * transform.forward * _chicken.Data.WallAvoidanceLength;
+        _forwardDetection = transform.forward * _chicken.Data.WallAvoidanceLength;
+        _leftDetection = Quaternion.Euler(0, -_chicken.Data.WallAvoidanceConeAngle, 0) * transform.forward * _chicken.Data.WallAvoidanceLength;
 
         Vector3 normalAverage = Vector3.zero;
 
-        rightIsDetecting = Physics.Raycast(transform.position, rightDetection, out RaycastHit hitInfo, _chicken.Data.WallAvoidanceLength, LayerMask.GetMask("Wall"));
+        _rightIsDetecting = Physics.Raycast(transform.position, _rightDetection, out RaycastHit hitInfo, _chicken.Data.WallAvoidanceLength, LayerMask.GetMask("Wall"));
 
-        if(rightIsDetecting)
+        if(_rightIsDetecting)
         {
             normalAverage += hitInfo.normal;
         }
 
-        forwardIsDetecting = Physics.Raycast(transform.position, forwardDetection, out hitInfo, _chicken.Data.WallAvoidanceLength, LayerMask.GetMask("Wall"));
+        _forwardIsDetecting = Physics.Raycast(transform.position, _forwardDetection, out hitInfo, _chicken.Data.WallAvoidanceLength, LayerMask.GetMask("Wall"));
 
-        if(forwardIsDetecting)
+        if(_forwardIsDetecting)
         {
             normalAverage += hitInfo.normal;
         }
 
-        leftIsDetecting = Physics.Raycast(transform.position, leftDetection, out hitInfo, _chicken.Data.WallAvoidanceLength, LayerMask.GetMask("Wall"));
+        _leftIsDetecting = Physics.Raycast(transform.position, _leftDetection, out hitInfo, _chicken.Data.WallAvoidanceLength, LayerMask.GetMask("Wall"));
 
-        if(leftIsDetecting)
+        if(_leftIsDetecting)
         {
             normalAverage += hitInfo.normal;
         }
@@ -50,19 +76,39 @@ public class WallAvoidance : AChickenModule
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.magenta;
+        if(!IsEnabled)
+        {
+            return;
+        }
+
+        //final redirection
+        Gizmos.color = Color.black;
         Gizmos.DrawLine(transform.position, transform.position + ResultingDirection);
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = rightIsDetecting ? Color.magenta * new Color(1f, 1f, 1f, 0.5f) : Color.magenta * new Color(1f, 1f, 1f, 0.2f);
-        Gizmos.DrawLine(transform.position, transform.position + rightDetection);
+        if(!IsEnabled)
+        {
+            return;
+        }
 
-        Gizmos.color = forwardIsDetecting ? Color.magenta * new Color(1f, 1f, 1f, 0.5f) : Color.magenta * new Color(1f, 1f, 1f, 0.2f);
-        Gizmos.DrawLine(transform.position, transform.position + forwardDetection);
+        //current detections
+        Gizmos.color = new Color(0.3f, 0.3f, 0.3f);
 
-        Gizmos.color = leftIsDetecting ? Color.magenta * new Color(1f, 1f, 1f, 0.5f) : Color.magenta * new Color(1f, 1f, 1f, 0.2f);
-        Gizmos.DrawLine(transform.position, transform.position + leftDetection);
+        if(_rightIsDetecting)
+        {
+            Gizmos.DrawLine(transform.position, transform.position + _rightDetection);
+        }
+
+        if(_forwardIsDetecting)
+        {
+            Gizmos.DrawLine(transform.position, transform.position + _forwardDetection);
+        }
+
+        if(_leftIsDetecting)
+        {
+            Gizmos.DrawLine(transform.position, transform.position + _leftDetection);
+        }
     }
 }
