@@ -81,8 +81,8 @@ MonoBehaviour:
               _multiplier: 1
           - Key: 3
             Value:
-              _isEnabled: 0
-              _weight: 1
+              _isEnabled: 1
+              _weight: 10
               _multiplier: 1
           - Key: 4
             Value:

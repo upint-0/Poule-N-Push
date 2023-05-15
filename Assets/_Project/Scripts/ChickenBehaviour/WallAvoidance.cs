@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class WallAvoidance : AChickenModule
 {
+    private Vector3 rightDetection;
+    private Vector3 forwardDetection;
+    private Vector3 leftDetection;
+    private bool rightIsDetecting;
+    private bool forwardIsDetecting;
+    private bool leftIsDetecting;
+
     public override void Initialize(ChickenCore chicken)
     {
         base.Initialize(chicken);
@@ -11,57 +18,51 @@ public class WallAvoidance : AChickenModule
 
     public override void Execute(ChickenModuleData moduleData)
     {
-        Vector3 directionRight = Quaternion.Euler(0, _chicken.Data.WallAvoidanceConeAngle, 0) * transform.forward * _chicken.Data.WallAvoidanceLength;
-        Vector3 directionForward = transform.forward * _chicken.Data.WallAvoidanceLength;
-        Vector3 directionLeft = Quaternion.Euler(0, -_chicken.Data.WallAvoidanceConeAngle, 0) * transform.forward * _chicken.Data.WallAvoidanceLength;
+        rightDetection = Quaternion.Euler(0, _chicken.Data.WallAvoidanceConeAngle, 0) * transform.forward * _chicken.Data.WallAvoidanceLength;
+        forwardDetection = transform.forward * _chicken.Data.WallAvoidanceLength;
+        leftDetection = Quaternion.Euler(0, -_chicken.Data.WallAvoidanceConeAngle, 0) * transform.forward * _chicken.Data.WallAvoidanceLength;
 
         Vector3 normalAverage = Vector3.zero;
 
-        //bool right = Physics.Raycast(transform.position, directionRight, out RaycastHit hitInfo, Length, LayerMask.GetMask("Wall"));
+        rightIsDetecting = Physics.Raycast(transform.position, rightDetection, out RaycastHit hitInfo, _chicken.Data.WallAvoidanceLength, LayerMask.GetMask("Wall"));
 
-        //if(right)
-        //{
-        //    normalAverage += hitInfo.normal;
-        //}
-
-        bool forward = Physics.Raycast(transform.position, directionForward, out RaycastHit hitInfo, _chicken.Data.WallAvoidanceLength, LayerMask.GetMask("Wall"));
-
-        if(forward)
+        if(rightIsDetecting)
         {
             normalAverage += hitInfo.normal;
         }
 
-        //bool left = Physics.Raycast(transform.position, directionLeft, out hitInfo, Length, LayerMask.GetMask("Wall"));
+        forwardIsDetecting = Physics.Raycast(transform.position, forwardDetection, out hitInfo, _chicken.Data.WallAvoidanceLength, LayerMask.GetMask("Wall"));
 
-        //if(left)
-        //{
-        //    normalAverage += hitInfo.normal;
-        //}
-
-        // Debug.DrawRay(transform.position, directionRight, right ? Color.black : Color.white);
-        //Debug.DrawRay(transform.position, directionForward, forward ? Color.black : Color.white);
-        //Debug.DrawRay(transform.position, directionLeft, left ? Color.black : Color.white);
-
-        //if ( right || forward || left )
-        //{
-        //    finalDir = normalAverage;
-        //    Debug.DrawRay( transform.position, finalDir, Color.red );
-        //}
-        if(forward)
+        if(forwardIsDetecting)
         {
-            //Debug.DrawRay(transform.position, finalDir, Color.red);
-            ResultingDirection = normalAverage;
+            normalAverage += hitInfo.normal;
         }
+
+        leftIsDetecting = Physics.Raycast(transform.position, leftDetection, out hitInfo, _chicken.Data.WallAvoidanceLength, LayerMask.GetMask("Wall"));
+
+        if(leftIsDetecting)
+        {
+            normalAverage += hitInfo.normal;
+        }
+
+        ResultingDirection = normalAverage.normalized;
     }
 
-    public LayerMask m_allowCollision;
-    public bool IsHittingWall(ChickenModuleData moduleData)
+    private void OnDrawGizmos()
     {
-        //Debug.DrawLine(transform.position, transform.position + directionForward * 2f, Color.red);
-        Vector3 directionForward = transform.forward * _chicken.Data.WallAvoidanceLength;
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawLine(transform.position, transform.position + ResultingDirection);
+    }
 
-        bool forward = Physics.Raycast(transform.position, directionForward, out RaycastHit hitInfo, _chicken.Data.WallAvoidanceLength, m_allowCollision);
-        //Debug.Log( "What ? "+forward );
-        return forward;
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = rightIsDetecting ? Color.magenta * new Color(1f, 1f, 1f, 0.5f) : Color.magenta * new Color(1f, 1f, 1f, 0.2f);
+        Gizmos.DrawLine(transform.position, transform.position + rightDetection);
+
+        Gizmos.color = forwardIsDetecting ? Color.magenta * new Color(1f, 1f, 1f, 0.5f) : Color.magenta * new Color(1f, 1f, 1f, 0.2f);
+        Gizmos.DrawLine(transform.position, transform.position + forwardDetection);
+
+        Gizmos.color = leftIsDetecting ? Color.magenta * new Color(1f, 1f, 1f, 0.5f) : Color.magenta * new Color(1f, 1f, 1f, 0.2f);
+        Gizmos.DrawLine(transform.position, transform.position + leftDetection);
     }
 }
